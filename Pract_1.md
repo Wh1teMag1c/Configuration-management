@@ -42,7 +42,7 @@ h hello include int main n printf return stdio void world
 ```
 ### Решение
 ```bash
-cut -d: -f1 /etc/passwd | sort
+grep -o -E '\b[a-zA-Z_][a-zA-Z0-9_]*\b' hello.c | sort -u
 ```
 # Задача 5
 ### Формулировка задачи
