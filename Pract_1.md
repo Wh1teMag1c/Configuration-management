@@ -54,7 +54,9 @@ cut -d: -f1 /etc/passwd | sort
 В результате для banner задаются правильные права доступа и сам banner копируется в /usr/local/bin.
 ### Решение
 ```bash
-cut -d: -f1 /etc/passwd | sort
+#!/bin/bash
+chmod +x "$1"
+sudo cp "$1" /usr/local/bin/
 ```
 # Задача 6
 ### Формулировка задачи
