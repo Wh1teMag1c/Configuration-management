@@ -31,7 +31,22 @@ awk '{print $2, $1}' /etc/protocols | sort -n -r | head -n 5
 ```
 ### Решение
 ```bash
-cut -d: -f1 /etc/passwd | sort
+#!/bin/bash
+text="$1"
+text_len=${#text}
+echo -n "+"
+for ((i=-2;i<text_len;i++))
+do
+echo -n "-"
+done
+echo "+"
+echo "| $text |"
+echo -n "+"
+for ((i=-2;i<text_len;i++))
+do
+echo -n "-"
+done
+echo "+"
 ```
 # Задача 4
 ### Формулировка задачи
