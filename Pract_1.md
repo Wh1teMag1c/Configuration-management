@@ -119,5 +119,6 @@ cut -d: -f1 /etc/passwd | sort
 Написать программу, которая выводит названия всех пустых текстовых файлов в указанной директории. Директория передается в программу параметром.
 ### Решение
 ```bash
-cut -d: -f1 /etc/passwd | sort
+find "$directory" -type f -name "*.txt" -exec bash -c 'if [ ! -s "$1" ]; then echo "$(basename "$1")"; fi' _ {} \;
 ```
+![image](https://github.com/user-attachments/assets/17e1615a-8816-48f0-bee2-1f334611bcd5)
