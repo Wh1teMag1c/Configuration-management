@@ -50,6 +50,7 @@ echo -n "-"
 done
 echo "+"
 ```
+![image](https://github.com/user-attachments/assets/e67c8032-8a5a-4829-b97f-2d95907402a9)
 # Задача 4
 ### Формулировка задачи
 Написать программу для вывода всех идентификаторов (по правилам C/C++ или Java) в файле (без повторений).
@@ -61,6 +62,7 @@ h hello include int main n printf return stdio void world
 ```bash
 grep -o -E '\b[a-zA-Z_][a-zA-Z0-9_]*\b' hello.c | sort -u
 ```
+![image](https://github.com/user-attachments/assets/f762181c-d3c4-4adf-b864-be1a0410a499)
 # Задача 5
 ### Формулировка задачи
 Написать программу для регистрации пользовательской команды (правильные права доступа и копирование в /usr/local/bin).
