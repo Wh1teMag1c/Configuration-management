@@ -82,8 +82,17 @@ sudo cp "$1" /usr/local/bin/
 Написать программу для проверки наличия комментария в первой строке файлов с расширением c, js и py.
 ### Решение
 ```bash
-cut -d: -f1 /etc/passwd | sort
+#!/bin/bash
+for file in *.c *.js *.py; do
+    first_line=$(head -n 1 "$file")
+    if [[ "$first_line" == \#* ]] || [[ "$first_line" == ///* ]] || [[ "$first_line" == /* ]]; then
+        echo "$file: Есть комментарий"
+    else
+        echo "$file: Комментария нет"
+    fi
+done
 ```
+![image](https://github.com/user-attachments/assets/d9de4203-cbff-42fb-94bf-f541f5b83c76)
 # Задача 7
 ### Формулировка задачи
 Написать программу для нахождения файлов-дубликатов (имеющих 1 или более копий содержимого) по заданному пути (и подкаталогам).
