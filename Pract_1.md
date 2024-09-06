@@ -21,6 +21,7 @@ cut -d: -f1 /etc/passwd | sort
 ```bash
 awk '{print $2, $1}' /etc/protocols | sort -n -r | head -n 5
 ```
+![image](https://github.com/user-attachments/assets/9824a142-541c-4e32-85ef-65a2d0b6b596)
 # Задача 3
 ### Формулировка задачи
 Написать программу banner средствами bash для вывода текстов, как в следующем примере (размер баннера должен меняться!):
