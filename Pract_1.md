@@ -71,6 +71,9 @@ grep -o -E '\b[a-zA-Z_][a-zA-Z0-9_]*\b' hello.c | sort -u
 ./reg banner
 ```
 В результате для banner задаются правильные права доступа и сам banner копируется в /usr/local/bin.
+![image](https://github.com/user-attachments/assets/2ad01d22-a26a-4c3a-ada0-83577a64e206)
+
+![image](https://github.com/user-attachments/assets/d5ad146a-eb6a-4eef-93ab-50b63aa47c72)
 ### Решение
 ```bash
 #!/bin/bash
