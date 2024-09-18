@@ -8,13 +8,13 @@ pip show matplotlib
 ![image](https://github.com/user-attachments/assets/ea1afb39-b332-40f4-9212-38f696c2ecf3)
 
 #### Основные элементы содержимого файла со служебной информацией из пакета:
-* Name: matplotlib (Имя пакета)
-* Version: 3.9.2 (Версия пакета по стандарту семантического версионирования (SemVer). В данном случае 3.9.2 указывает на третью основную версию (MAJOR — 3), с девятым минорным обновлением (MINOR — 9), а патч (PATCH — 2) включает исправления ошибок без изменения функциональности)
-* Summary: Python plotting package (Краткое описание пакета. В этом случае пакет matplotlib — это библиотека для построения графиков в Python)
-* Home-page: https://matplotlib.org (Ссылка на официальный сайт или документацию пакета)
-* Author: John D. Hunter, Michael Droettboom (Авторы пакета)
-* Author-email: Unknown matplotlib-users@python.org (Контактная информация автора)
-* License: License agreement for matplotlib versions 1.3.0 and later (Лицензия, под которой распространяется пакет)
+* Name: matplotlib (имя пакета)
+* Version: 3.9.2 (версия пакета по стандарту семантического версионирования (SemVer). В данном случае 3.9.2 указывает на третью основную версию (MAJOR — 3), с девятым минорным обновлением (MINOR — 9), а патч (PATCH — 2) включает исправления ошибок без изменения функциональности)
+* Summary: Python plotting package (краткое описание пакета. В этом случае пакет matplotlib — это библиотека для построения графиков в Python)
+* Home-page: https://matplotlib.org (ссылка на официальный сайт или документацию пакета)
+* Author: John D. Hunter, Michael Droettboom (авторы пакета)
+* Author-email: Unknown matplotlib-users@python.org (контактная информация автора)
+* License: License agreement for matplotlib versions 1.3.0 and later (лицензия, по которой распространяется пакет)
 ### Формулировка задачи
 Как получить пакет без менеджера пакетов, прямо из репозитория?
 ### Решение
@@ -40,7 +40,24 @@ npm view express
 ![image](https://github.com/user-attachments/assets/0460a3b5-0ce2-4eee-8cca-6fb45270ea3a)
 
 #### Основные элементы содержимого файла со служебной информацией из пакета:
-
+* express (имя пакета)
+* 4.21.0 (Версия пакета по стандарту семантического версионирования (SemVer). В данном случае 4.21.0 указывает на четвёртую основную версию (MAJOR — 4), с двадцать первым минорным обновлением (MINOR — 9), а патч (PATCH — 0) включает исправления ошибок без изменения функциональности)
+* MIT (лицензия, по которой распространяется пакет (в данном случае MIT, одна из самых открытых лицензий)
+* deps: 31 (количество зависимостей. Пакет Express требует 31 внешнюю библиотеку для работы)
+* versions: 279 (количество опубликованных версий Express.js)
+* Fast, unopinionated, minimalist web framework (краткое описание пакета: Express — это быстрый, минималистичный веб-фреймворк для Node.js)
+* http://expressjs.com/ (ссылка на официальный сайт, где можно найти документацию и другие ресурсы, связанные с пакетом)
+* keywords: express, framework, sinatra, web, http, rest, restful, router, app, api (список ключевых слов, по которым можно найти пакет)
+* dist (информация о дистрибуции пакета)
+  * .tarball: https://registry.npmjs.org/express/-/express-4.21.0.tgz (ссылка на архив пакета в формате .tgz, который можно скачать)
+  * .shasum: d57cb706d49623d4ac27833f1cbc466b668eb915 (контрольная сумма (SHA-1) для проверки целостности пакета)
+  * .integrity: sha512-VqcNGcj/Id5ZT1LZ/cfihi3ttTn+NJmkli2eZADigjq29qTlWi/hAQ43t/VLPq8+UX06FCEx3ByOYet6ZFblng== (контрольная сумма по алгоритму SHA-512 для подтверждения целостности)
+  * .unpackedSize: 220.8 kB (размер распакованного пакета)
+* dependencies (список зависимостей пакета и их версии)
+* maintainers (список мейнтейнеров пакета и их контактные данные)
+* dist-tags (теги дистрибуции)
+  * latest: 4.21.0 (стабильная версия пакета)
+  * next: 5.0.0 (следующая версия, которая еще не является стабильной)
 ### Формулировка задачи
 Как получить пакет без менеджера пакетов, прямо из репозитория?
 ### Решение
@@ -48,7 +65,7 @@ npm view express
 ```
 git clone https://github.com/expressjs/express.git
 cd express
-npm install.
+npm install
 ```
 ![image](https://github.com/user-attachments/assets/e52b58d8-a8c1-4933-8b18-71edef6c9e28)
 
