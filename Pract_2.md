@@ -88,7 +88,7 @@ SMT-решатель (Z3).
 ```MiniZinc
 include "alldifferent.mzn";
 
-% Определим массив цифр билета
+% Массив цифр билета
 array[1..6] of var 0..9: digits;
 
 % Ограничение на то, что все цифры различны
@@ -102,3 +102,49 @@ solve minimize digits[1] * 100000 + digits[2] * 10000 + digits[3] * 1000 + digit
 ```
 ### Ответ
 ![image](https://github.com/user-attachments/assets/603e60e6-386c-43b0-ba9c-b0cb6ab62cd1)
+
+# Задача 5
+### Формулировка задачи
+Решить на MiniZinc задачу о зависимостях пакетов для рисунка, приведенного ниже.
+![image](https://github.com/user-attachments/assets/fee5e211-23b4-46a8-86b8-508047ca42d5)
+
+### Решение
+```MiniZinc
+% Определяем количество версий для каждого пакета
+int: num_menu = 6;        % Количество версий меню
+int: num_dropdown = 5;    % Количество версий dropdown
+int: num_icons = 2;       % Количество версий icons
+
+set of int: VersionsMenu = 1..num_menu;
+set of int: VersionsDropdown = 1..num_dropdown;
+set of int: VersionsIcons = 1..num_icons;
+
+% Переменные для хранения выбранной версии каждого пакета
+var VersionsMenu: menu_version;
+var VersionsDropdown: dropdown_version;
+var VersionsIcons: icons_version;
+
+% Задаем зависимости между пакетами
+
+% Зависимости пакета menu от пакетов dropdown и icons
+constraint 
+    (menu_version == 6 -> dropdown_version == 5 /\ icons_version == 2) /\
+    (menu_version == 5 -> dropdown_version == 4 /\ icons_version == 2) /\
+    (menu_version == 4 -> dropdown_version == 3 /\ icons_version == 2) /\
+    (menu_version == 3 -> dropdown_version == 2 /\ icons_version == 2) /\
+    (menu_version == 2 -> dropdown_version == 2 /\ icons_version == 2) /\
+    (menu_version == 1 -> dropdown_version == 1 /\ icons_version == 1);
+
+% Зависимости пакета dropdown от icons
+constraint
+    (dropdown_version == 5 -> icons_version == 2) /\
+    (dropdown_version == 4 -> icons_version == 2) /\
+    (dropdown_version == 3 -> icons_version == 2) /\
+    (dropdown_version == 2 -> icons_version >= 1) /\
+    (dropdown_version == 1 -> icons_version >= 1);
+
+% Оптимизация: выбираем наиболее новые версии пакетов
+solve maximize menu_version + dropdown_version + icons_version;
+```
+### Ответ
+![image](https://github.com/user-attachments/assets/f34e4804-80e4-46ae-aedc-f889b6835696)
