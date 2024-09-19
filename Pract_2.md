@@ -148,3 +148,66 @@ solve maximize menu_version + dropdown_version + icons_version;
 ```
 ### Ответ
 ![image](https://github.com/user-attachments/assets/f34e4804-80e4-46ae-aedc-f889b6835696)
+
+# Задача 6
+### Формулировка задачи
+Решить на MiniZinc задачу о зависимостях пакетов для следующих данных:
+```
+root 1.0.0 зависит от foo ^1.0.0 и target ^2.0.0.
+foo 1.1.0 зависит от left ^1.0.0 и right ^1.0.0.
+foo 1.0.0 не имеет зависимостей.
+left 1.0.0 зависит от shared >=1.0.0.
+right 1.0.0 зависит от shared <2.0.0.
+shared 2.0.0 не имеет зависимостей.
+shared 1.0.0 зависит от target ^1.0.0.
+target 2.0.0 и 1.0.0 не имеют зависимостей.
+```
+
+### Решение
+```MiniZinc
+% Определяем количество версий для каждого пакета
+int: num_foo = 2;         % foo имеет 2 версии: 1.0.0 и 1.1.0
+int: num_left = 1;        % left имеет 1 версию: 1.0.0
+int: num_right = 1;       % right имеет 1 версию: 1.0.0
+int: num_shared = 2;      % shared имеет 2 версии: 1.0.0 и 2.0.0
+int: num_target = 2;      % target имеет 2 версии: 1.0.0 и 2.0.0
+
+set of int: VersionsFoo = 1..num_foo;
+set of int: VersionsLeft = 1..num_left;
+set of int: VersionsRight = 1..num_right;
+set of int: VersionsShared = 1..num_shared;
+set of int: VersionsTarget = 1..num_target;
+
+% Переменные для хранения выбранной версии каждого пакета
+var VersionsFoo: foo_version;
+var VersionsLeft: left_version;
+var VersionsRight: right_version;
+var VersionsShared: shared_version;
+var VersionsTarget: target_version;
+
+% Задаем зависимости между пакетами
+
+% root 1.0.0 зависит от foo ^1.0.0 и target ^2.0.0
+constraint foo_version >= 1 /\ target_version == 2;
+
+% foo 1.1.0 зависит от left ^1.0.0 и right ^1.0.0
+constraint 
+    (foo_version == 2 -> left_version == 1 /\ right_version == 1);
+
+% left 1.0.0 зависит от shared >=1.0.0
+constraint 
+    (left_version == 1 -> shared_version >= 1);
+
+% right 1.0.0 зависит от shared <2.0.0
+constraint 
+    (right_version == 1 -> shared_version < 2);
+
+% shared 1.0.0 зависит от target ^1.0.0
+constraint 
+    (shared_version == 1 -> target_version >= 1);
+
+% Оптимизация: выбираем наиболее новые версии пакетов
+solve satisfy;
+```
+### Ответ
+![image](https://github.com/user-attachments/assets/429ee7e0-1363-43d4-a5df-499c7493b22d)
