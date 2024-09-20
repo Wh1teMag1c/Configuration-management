@@ -110,44 +110,55 @@ solve minimize digits[1] * 100000 + digits[2] * 10000 + digits[3] * 1000 + digit
 
 ### Решение
 ```MiniZinc
-% Определяем количество версий для каждого пакета
-int: num_menu = 6;        % Количество версий меню
-int: num_dropdown = 5;    % Количество версий dropdown
-int: num_icons = 2;       % Количество версий icons
+% Множество доступных версий для каждого пакета
+set of int: MenuVersions = 1..6;
+set of int: DropdownVersions = 1..5;
+set of int: IconsVersions = 1..2;
 
-set of int: VersionsMenu = 1..num_menu;
-set of int: VersionsDropdown = 1..num_dropdown;
-set of int: VersionsIcons = 1..num_icons;
+% Переменные для версии каждого пакета
+var MenuVersions: menu_version;
+var DropdownVersions: dropdown_version;
+var IconsVersions: icons_version;
 
-% Переменные для хранения выбранной версии каждого пакета
-var VersionsMenu: menu_version;
-var VersionsDropdown: dropdown_version;
-var VersionsIcons: icons_version;
-
-% Задаем зависимости между пакетами
-
-% Зависимости пакета menu от пакетов dropdown и icons
-constraint 
-    (menu_version == 6 -> dropdown_version == 5 /\ icons_version == 2) /\
-    (menu_version == 5 -> dropdown_version == 4 /\ icons_version == 2) /\
-    (menu_version == 4 -> dropdown_version == 3 /\ icons_version == 2) /\
-    (menu_version == 3 -> dropdown_version == 2 /\ icons_version == 2) /\
-    (menu_version == 2 -> dropdown_version == 2 /\ icons_version == 2) /\
-    (menu_version == 1 -> dropdown_version == 1 /\ icons_version == 1);
-
-% Зависимости пакета dropdown от icons
+% Зависимости между версиями
+% Зависимости пакета menu
 constraint
-    (dropdown_version == 5 -> icons_version == 2) /\
-    (dropdown_version == 4 -> icons_version == 2) /\
-    (dropdown_version == 3 -> icons_version == 2) /\
-    (dropdown_version == 2 -> icons_version >= 1) /\
-    (dropdown_version == 1 -> icons_version >= 1);
+  (menu_version == 6 -> dropdown_version == 5) /\
+  (menu_version == 6 -> dropdown_version == 4) /\
+  (menu_version == 6 -> dropdown_version == 3) /\
+  (menu_version == 6 -> dropdown_version == 2) /\
+  (menu_version == 5 -> dropdown_version == 5) /\
+  (menu_version == 5 -> dropdown_version == 4) /\
+  (menu_version == 5 -> dropdown_version == 3) /\
+  (menu_version == 5 -> dropdown_version == 2) /\
+  (menu_version == 4 -> dropdown_version == 5) /\
+  (menu_version == 4 -> dropdown_version == 4) /\
+  (menu_version == 4 -> dropdown_version == 3) /\
+  (menu_version == 4 -> dropdown_version == 2) /\
+  (menu_version == 3 -> dropdown_version == 5) /\
+  (menu_version == 3 -> dropdown_version == 4) /\
+  (menu_version == 3 -> dropdown_version == 3) /\
+  (menu_version == 3 -> dropdown_version == 2) /\
+  (menu_version == 2 -> dropdown_version == 5) /\
+  (menu_version == 2 -> dropdown_version == 4) /\
+  (menu_version == 2 -> dropdown_version == 3) /\
+  (menu_version == 2 -> dropdown_version == 2) /\
+  (menu_version == 1 -> dropdown_version == 1);
 
-% Оптимизация: выбираем наиболее новые версии пакетов
-solve maximize menu_version + dropdown_version + icons_version;
+% Зависимости пакета dropdown
+constraint
+  (dropdown_version == 5 -> icons_version == 2) /\
+  (dropdown_version == 4 -> icons_version == 2) /\
+  (dropdown_version == 3 -> icons_version == 2) /\
+  (dropdown_version == 2 -> icons_version == 2);
+
+% Вывод
+solve satisfy;
+
+output ["Menu version: \(menu_version)\n", "Dropdown version: \(dropdown_version)\n", "Icons version: \(icons_version)\n"];
 ```
 ### Ответ
-![image](https://github.com/user-attachments/assets/f34e4804-80e4-46ae-aedc-f889b6835696)
+![image](https://github.com/user-attachments/assets/6a15925c-6439-40c2-9d41-55ce7ddb43a6)
 
 # Задача 6
 ### Формулировка задачи
