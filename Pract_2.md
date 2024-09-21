@@ -71,9 +71,36 @@ npm install
 ### Формулировка задачи
 Сформировать graphviz-код и получить изображения зависимостей matplotlib и express.
 ### Решение
+Создадим .dot файл для зависимостей matplotlib:
+```dot
+digraph MatplotlibDependencies {
+    rankdir=LR;
+    node [shape=box];
+
+    "matplotlib" -> "numpy";
+    "matplotlib" -> "cycler";
+    "matplotlib" -> "kiwisolver";
+    "matplotlib" -> "pyparsing";
+}
 ```
-pip show matplotlib
+![matplotlib_dependencies](https://github.com/user-attachments/assets/16792226-d301-45a7-af23-f217a4a3dd18)
+
+
+Создадим .dot файл для зависимостей express:
+```dot
+digraph ExpressDependencies {
+    rankdir=LR;
+    node [shape=box];
+
+    "express" -> "body-parser";
+    "express" -> "cookie-parser";
+    "express" -> "debug";
+    "express" -> "morgan";
+    "express" -> "serve-static";
+}
 ```
+![express_dependencies](https://github.com/user-attachments/assets/d929c57b-dd95-44ef-bac9-a52641f5478b)
+
 # Задача 4
 ### Формулировка задачи
 Следующие задачи можно решать с помощью инструментов на выбор:
