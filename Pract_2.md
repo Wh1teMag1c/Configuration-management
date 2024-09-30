@@ -115,20 +115,27 @@ SMT-решатель (Z3).
 ```MiniZinc
 include "alldifferent.mzn";
 
-% Массив цифр билета
+% Определяем переменные для каждой цифры билета
 array[1..6] of var 0..9: digits;
 
-% Ограничение на то, что все цифры различны
+% Ограничение: все цифры должны быть разными
 constraint all_different(digits);
 
-% Ограничение на счастливый билет: сумма первых 3 цифр равна сумме последних 3
-constraint digits[1] + digits[2] + digits[3] = digits[4] + digits[5] + digits[6];
+% Сумма первых трех цифр должна равняться сумме последних трех цифр
+constraint sum(digits[1..3]) = sum(digits[4..6]);
 
-% Ограничение для поиска минимального возможного решения
-solve minimize digits[1] * 100000 + digits[2] * 10000 + digits[3] * 1000 + digits[4] * 100 + digits[5] * 10 + digits[6];
+% Найдем минимальное решение для суммы первых трех цифр
+var int: sum1 = sum(digits[1..3]);
+solve minimize sum1;
+
+% Читаем вывод
+output [
+    "Digits: ", show(digits), "\n",
+    "Sum of first three digits: ", show(sum1), "\n"
+];
 ```
 ### Ответ
-![image](https://github.com/user-attachments/assets/603e60e6-386c-43b0-ba9c-b0cb6ab62cd1)
+![image](https://github.com/user-attachments/assets/61b48110-d888-488a-a52c-3d66392658bd)
 
 # Задача 5
 ### Формулировка задачи
