@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/ac512a21-2b29-4ceb-b632-224ce73aa0a2)# Задача 1
+# Задача 1
 ### Формулировка задачи
 Вывести служебную информацию о пакете matplotlib (Python). Разобрать основные элементы содержимого файла со служебной информацией из пакета.
 ### Решение
@@ -171,30 +171,50 @@ output [
 
 ### Решение
 ```MiniZinc
-int: totalMenu = 6;
-int: totalDropdown = 5;
-int: totalIcon = 2;
+% Определяем количество версий для каждого компонента
+int: totalMenu = 6;        % Общее количество версий для меню
+int: totalDropdown = 5;    % Общее количество версий для выпадающего списка (dropdown)
+int: totalIcon = 2;        % Общее количество версий для иконки (icon)
 
-var 1..totalMenu: menu;
-var 1..totalDropdown: dropdown;
-var 1..totalIcon: icon;
+% Переменные для выбора версии каждого компонента
+var 1..totalMenu: menu;            % Выбранная версия для меню
+var 1..totalDropdown: dropdown;    % Выбранная версия для выпадающего списка
+var 1..totalIcon: icon;            % Выбранная версия для иконки
 
+% Массив, содержащий версии для меню в формате (major, minor, patch)
 array[1..totalMenu] of tuple(int, int, int): menuVersions = 
   [(1,0,0), (1,1,0), (1,2,0), (1,3,0), (1,4,0), (1,5,0)];
   
+% Массив, содержащий версии для выпадающего списка
 array[1..totalDropdown] of tuple(int, int, int): dropdownVersions = 
   [(1,8,0), (2,0,0), (2,1,0), (2,2,0), (2,3,0)];
   
+% Массив, содержащий версии для иконки
 array[1..totalIcon] of tuple(int, int, int): iconVersions = 
   [(1,0,0), (2,0,0)];
 
-constraint (menuVersions[menu] == (1,0,0) \/ menuVersions[menu] == (1, 5, 0) /\ iconVersions[icon] == (1, 0, 0));
-constraint (menuVersions[menu].2 >= 1 /\ menuVersions[menu].2 <= 5) -> (dropdownVersions[dropdown] == (2, 3, 0) \/ dropdownVersions[dropdown] == (2, 0, 0));
-constraint menuVersions[menu] == (1, 0, 0) -> dropdownVersions[dropdown] == (1, 8, 0);
-constraint (dropdownVersions[dropdown].2 >= 0 /\ dropdownVersions[dropdown].2 <= 3) -> iconVersions[icon] == (2, 0, 0);
+% Ограничения по версиям компонентов
+
+% Меню должно быть либо версии (1,0,0), либо версии (1,5,0), 
+% при этом иконка должна быть версии (1,0,0)
+constraint (menuVersions[menu] == (1,0,0) \/ 
+            (menuVersions[menu] == (1,5,0) /\ iconVersions[icon] == (1,0,0)));
+
+% Если версия меню между 1.1.0 и 1.5.0, то версия выпадающего списка должна быть 
+% либо (2,3,0), либо (2,0,0)
+constraint (menuVersions[menu].2 >= 1 /\ menuVersions[menu].2 <= 5) -> 
+          (dropdownVersions[dropdown] == (2,3,0) \/ dropdownVersions[dropdown] == (2,0,0));
+
+% Если версия меню (1,0,0), то версия выпадающего списка должна быть (1,8,0)
+constraint menuVersions[menu] == (1,0,0) -> dropdownVersions[dropdown] == (1,8,0);
+
+% Если версия выпадающего списка имеет minor версию от 0 до 3, то версия иконки должна быть (2,0,0)
+constraint (dropdownVersions[dropdown].2 >= 0 /\ dropdownVersions[dropdown].2 <= 3) -> 
+          iconVersions[icon] == (2,0,0);
 
 solve satisfy;
 
+% Вывод выбранных версий для каждого компонента
 output [
   "Selected Menu Version: ", show(menuVersions[menu]), "\n",
   "Selected Dropdown Version: ", show(dropdownVersions[dropdown]), "\n",
@@ -227,18 +247,28 @@ int: num_right = 1;       % right имеет 1 версию: 1.0.0
 int: num_shared = 2;      % shared имеет 2 версии: 1.0.0 и 2.0.0
 int: num_target = 2;      % target имеет 2 версии: 1.0.0 и 2.0.0
 
-set of int: VersionsFoo = 1..num_foo;
-set of int: VersionsLeft = 1..num_left;
-set of int: VersionsRight = 1..num_right;
-set of int: VersionsShared = 1..num_shared;
-set of int: VersionsTarget = 1..num_target;
+% Устанавливаем строки версий
+array[1..num_foo] of tuple(int, int, int): foo_versions = 
+  [(1,0,0), (1,1,0)];
+  
+array[1..num_left] of tuple(int, int, int): left_versions = 
+  [(1,0,0)];
+  
+array[1..num_right] of tuple(int, int, int): right_versions = 
+  [(1,0,0)];
+
+array[1..num_shared] of tuple(int, int, int): shared_versions = 
+  [(1,0,0), (2,0,0)];
+
+array[1..num_target] of tuple(int, int, int): target_versions = 
+  [(1,0,0), (2,0,0)];
 
 % Переменные для хранения выбранной версии каждого пакета
-var VersionsFoo: foo_version;
-var VersionsLeft: left_version;
-var VersionsRight: right_version;
-var VersionsShared: shared_version;
-var VersionsTarget: target_version;
+var 1..num_foo: foo_version;          % Версия foo
+var 1..num_left: left_version;        % Версия left
+var 1..num_right: right_version;      % Версия right
+var 1..num_shared: shared_version;    % Версия shared
+var 1..num_target: target_version;    % Версия target
 
 % Задаем зависимости между пакетами
 
@@ -261,8 +291,16 @@ constraint
 constraint 
     (shared_version == 1 -> target_version >= 1);
 
-% Оптимизация: выбираем наиболее новые версии пакетов
 solve satisfy;
+
+% Вывод выбранных версий для каждого компонента
+output [
+    "Selected Foo Version: ", show(foo_versions[foo_version]), "\n",
+    "Selected Left Version: ", show(left_versions[left_version]), "\n",
+    "Selected Right Version: ", show(right_versions[right_version]), "\n",
+    "Selected Shared Version: ", show(shared_versions[shared_version]), "\n",
+    "Selected Target Version: ", show(target_versions[target_version]), "\n"
+];
 ```
 ### Ответ
-![image](https://github.com/user-attachments/assets/429ee7e0-1363-43d4-a5df-499c7493b22d)
+![image](https://github.com/user-attachments/assets/43cfeb28-8f89-4d1e-b7a4-bcae69b6f7f3)
