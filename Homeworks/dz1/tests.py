@@ -42,10 +42,25 @@ class TestShellEmulator(unittest.TestCase):
         if os.path.exists(self.test_log_file):
             os.remove(self.test_log_file)
 
+        # Выводим название текущего теста
+        print(f"Running test: {self._testMethodName}")
+
     def tearDown(self):
         # Закрываем файловую систему после каждого теста
         if zip_fs:
             zip_fs.close()
+
+        # Получаем результат теста
+        result = self._outcome.result
+        test_name = self._testMethodName
+
+        # Проверяем ошибки и неудачи
+        if any(err for err in result.errors if err[0] is self):
+            print(f"Test {test_name}: ERROR")
+        elif any(fail for fail in result.failures if fail[0] is self):
+            print(f"Test {test_name}: FAILED")
+        else:
+            print(f"Test {test_name}: SUCCESS")
 
     def test_parse_args(self):
         test_args = ['--user', 'test_user', '--filesystem', self.zip_path, '--logfile', self.test_log_file]

@@ -108,7 +108,7 @@ def write_roots_file(path, mode):
 
 
 # Выполнение команд
-def execute_command(command, user, log_file, output, current_directory):
+def execute_command(command, user, log_file, output=None, current_directory=VIRTUAL_FS_ROOT):
     command = command.strip()
 
     def print_output(message):
@@ -212,6 +212,21 @@ def execute_command(command, user, log_file, output, current_directory):
     return current_directory
 
 
+# Выполнение команд из текстового файла
+def execute_script_commands(script_path, user, log_file, output, current_directory=VIRTUAL_FS_ROOT):
+    if os.path.exists(script_path) and script_path.endswith('.txt'):
+        with open(script_path, 'r') as file:
+            for line in file:
+                # Выводим команду на экран
+                output.insert(END, f'{user}@shell:~$ {line.strip()}\n')
+                # Выполняем команду
+                current_directory = execute_command(line.strip(), user, log_file, output,
+                                                    current_directory=current_directory)
+    else:
+        raise FileNotFoundError(f"Скрипт {script_path} не найден или не является текстовым файлом")
+    return current_directory
+
+
 # GUI функции
 def on_enter(event, input_var, output, user, log_file, current_directory_var):
     command = input_var.get()
@@ -245,11 +260,21 @@ def start_gui(user, log_file, script=None):
 
     # Выполняем стартовый скрипт (если указан)
     if script:
-        try:
-            execute_python_script(script)
-        except FileNotFoundError as e:
-            output.insert(END, f"Ошибка: {e}\n")
+        if script.endswith('.txt'):
+            try:
+                # Выводим заголовок перед выполнением скрипта
+                output.insert(END, f"Выполнение команд из {script}:\n")
+                current_directory = execute_script_commands(script, user, log_file, output, current_directory_var.get())
+                current_directory_var.set(current_directory)
+            except FileNotFoundError as e:
+                output.insert(END, f"Ошибка: {e}\n")
+        else:
+            try:
+                execute_python_script(script)
+            except FileNotFoundError as e:
+                output.insert(END, f"Ошибка: {e}\n")
 
+    # Запускаем основной цикл обработки событий Tkinter
     root.mainloop()
 
 
