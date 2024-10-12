@@ -250,9 +250,15 @@ y & ~(y)
 ~((x) & y | (y) | (x)) & x | x | (y & ~y)
 ```
 ### Решение
+Т.к. код программы использует выражение body.split('|'), то я заменил символ для логической операции ИЛИ на 'V'
 ```bnf
 BNF = '''
-E = ( ) | { } | ( E ) | { E }
+E = ( E B F ) | U ( E ) | F
+F = P B P | U P | P
+P = x | y | (x) | (y)
+U = ~
+B = & | V
 '''
 ```
 
+![image](https://github.com/user-attachments/assets/c9104c47-0c56-4a20-881a-93ebabc0ff5a)
