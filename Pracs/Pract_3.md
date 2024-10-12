@@ -48,7 +48,7 @@
     },
     {
       "age": 19,
-      "group": "ИКБО-10-20",
+      "group": "ИКБО-10-23",
       "name": "Барташевский Д.Д."
     }
   ],
@@ -134,7 +134,7 @@ local course = "Конфигурационное управление";
     },
     {
       "age": 19,
-      "group": "ИКБО-10-20",
+      "group": "ИКБО-10-23",
       "name": "Барташевский Д.Д."
     }
   ],
@@ -154,12 +154,18 @@ let students =
       , { name = "Барташевский Д.Д.", age = 19, group = "ИКБО-10-23" }
       ]
 
-let groups = [ "ИКБО-${Natural/show i}-20" | i <- [1..24] ]
+let List_generate = https://prelude.dhall-lang.org/List/generate
+
+let makeGroup = \(i : Natural) -> "ИКБО-" ++ Natural/show (i + 1) ++ "-20"
+
+let groups = List_generate 24 Text makeGroup
 
 let subject = "Конфигурационное управление"
 
 in  { groups, students, subject }
 ```
+
+![image](https://github.com/user-attachments/assets/f0fa6901-d4c0-4472-a20e-1be57e7e3828)
 
 # Задача 3
 ### Формулировка задачи
