@@ -58,20 +58,20 @@
 ### Решение
 ```Jsonnet
 local generateGroups = [ 
-  std.format("ИКБО-%d-20", i) for i in 1..24 
+  "ИКБО-%d-20" % i for i in std.range(1, 24) 
 ];
 
-local createStudent = function(name, age, groupIdx) {
+local createStudent = function(name, age, groupName) {
   name: name,
   age: age,
-  group: generateGroups[groupIdx]
+  group: groupName
 };
 
 local studentsList = [
-  createStudent("Иванов И.И.", 19, 3),
-  createStudent("Петров П.П.", 18, 4),
-  createStudent("Сидоров С.С.", 18, 4),
-  createStudent("Барташевский Д.Д.", 19, 9)
+  createStudent("Иванов И.И.", 19, generateGroups[3]),
+  createStudent("Петров П.П.", 18, generateGroups[4]),
+  createStudent("Сидоров С.С.", 18, generateGroups[4]),
+  createStudent("Барташевский Д.Д.", 19, "ИКБО-10-23")
 ];
 
 local course = "Конфигурационное управление";
@@ -82,7 +82,7 @@ local course = "Конфигурационное управление";
   subject: course
 }
 ```
-![image](https://github.com/user-attachments/assets/aa0f1652-bd62-4610-8005-f48c01e730de)
+![image](https://github.com/user-attachments/assets/4562e48d-05f0-4b36-bc59-2a672e0afda5)
 
 # Задача 2
 ### Формулировка задачи
