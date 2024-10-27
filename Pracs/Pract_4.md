@@ -6,7 +6,8 @@
 
 ### Решение
 #### Создание и тестирование ```Makefile```
-![image](https://github.com/user-attachments/assets/677443bc-c938-41ee-a10c-30059ccd7fa7)
+<img width="500" alt="Picture_1" src="https://github.com/user-attachments/assets/677443bc-c938-41ee-a10c-30059ccd7fa7">
+
 #### Визуализация графа 
 ```Python
 from graphviz import Source
@@ -20,7 +21,7 @@ graph_source = Source(graph_data)
 output_file = 'civgraph_output'
 graph_source.render(output_file, format='png', cleanup=True)
 ```
-![civgraph_output](https://github.com/user-attachments/assets/aa352f8b-a381-42ba-b97d-b44be10517f8)
+<img width="700" alt="Picture_2" src="https://github.com/user-attachments/assets/aa352f8b-a381-42ba-b97d-b44be10517f8">
 
 # Задача 1
 ### Формулировка задачи
@@ -50,7 +51,6 @@ mathematics
 import json
 
 
-# Функция для записи зависимостей в Makefile
 def write_makefile(dependency_graph, output_file='Makefile'):
     try:
         with open(output_file, 'w') as makefile:
@@ -63,7 +63,6 @@ def write_makefile(dependency_graph, output_file='Makefile'):
         print(f"Ошибка при записи в файл: {e}")
 
 
-# Функция для загрузки графа зависимостей из JSON файла
 def load_dependency_graph(file_path):
     try:
         with open(file_path, 'r') as json_file:
@@ -81,4 +80,60 @@ if __name__ == '__main__':
     if dependencies:
         write_makefile(dependencies)
 ```
-![image](https://github.com/user-attachments/assets/9f39e163-28cf-4510-a474-c90c05cb50e4)
+<img width="700" alt="Picture_3" src="https://github.com/user-attachments/assets/9f39e163-28cf-4510-a474-c90c05cb50e4">
+
+# Задача 2
+### Формулировка задачи
+Реализовать вариант трансляции, при котором повторный запуск make не выводит для civgraph на экран уже выполненные "задачи".
+### Решение
+```Python
+import json
+import os
+
+
+def collect_dependencies(dependency_graph, target):
+    all_dependencies = set(dependency_graph.get(target, []))
+    for dependency in dependency_graph.get(target, []):
+        all_dependencies.update(collect_dependencies(dependency_graph, dependency))
+    return all_dependencies
+
+
+def create_makefile(dependency_graph, target):
+    completed = load_completed_tasks()
+    dependencies = collect_dependencies(dependency_graph, target)
+    completed.add(target)
+
+    with open('Makefile', 'w') as makefile:
+        makefile_entries = ""
+        for dependency in dependencies:
+            if dependency not in completed:
+                completed.add(dependency)
+                makefile_entries += f'\t@echo "Processing {dependency}"\n'
+
+        if makefile_entries:
+            makefile.write(f'{target}:\n')
+            makefile.write(makefile_entries)
+
+    save_completed_tasks(completed)
+
+
+def load_completed_tasks():
+    if os.path.exists("completed_tasks.txt"):
+        with open("completed_tasks.txt", 'r') as file:
+            return set(file.read().splitlines())
+    return set()
+
+
+def save_completed_tasks(completed):
+    with open("completed_tasks.txt", 'w') as file:
+        file.write('\n'.join(completed))
+
+
+if __name__ == '__main__':
+    with open('civgraph.json') as json_file:
+        dependency_graph = json.load(json_file)
+    target_task = input('Введите задачу: ')
+    create_makefile(dependency_graph, target_task)
+    print("Makefile успешно создан.")
+```
+<img width="700" alt="Picture_3" src="https://github.com/user-attachments/assets/aeb53965-bb0c-4533-a546-5c494b2bd929">
