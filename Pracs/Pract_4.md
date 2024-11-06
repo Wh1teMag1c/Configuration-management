@@ -23,11 +23,14 @@ git merge second
 git checkout [in_hash]
 git tag in 
 ```
-<img width="700" alt="Picture_1" src="https://github.com/user-attachments/assets/6f8a79fa-f76a-497a-86e7-23e87da0a012">
+<img width="800" alt="Picture_1" src="https://github.com/user-attachments/assets/6f8a79fa-f76a-497a-86e7-23e87da0a012">
 
 # Задача 2
 ### Формулировка задачи
 Создать локальный git-репозиторий. Задать свои имя и почту (далее – coder1). Разместить файл prog.py с какими-нибудь данными. Прислать в текстовом виде диалог с git.
+### Решение
+<img width="700" alt="Picture_1" src="https://github.com/user-attachments/assets/df96207c-d666-41bf-a513-475f1431907f">
+
 # Задача 3
 ### Формулировка задачи
 Создать рядом с локальным репозиторием bare-репозиторий с именем server. Загрузить туда содержимое локального репозитория. Команда git remote -v должна выдать информацию о server! Синхронизировать coder1 с server.
@@ -76,3 +79,30 @@ Coder2 добавляет в readme в раздел об авторах свою
 # Задача 4
 ### Формулировка задачи
 Написать программу на Питоне (или другом ЯП), которая выводит список содержимого всех объектов репозитория. Воспользоваться командой "git cat-file -p". Идеальное решение – не использовать иных сторонних команд и библиотек для работы с git.
+### Решение
+```Python
+import subprocess
+
+
+def list_git_objects():
+    try:
+        result = subprocess.run(
+            ["git", "rev-list", "--all", "--objects"],
+            capture_output=True, text=True, check=True
+        )
+        return [line.split()[0] for line in result.stdout.splitlines()]
+    except subprocess.CalledProcessError:
+        print("Ошибка при получении списка объектов")
+        return []
+
+
+def main():
+    for obj in list_git_objects():
+        print(f"\n{'=' * 45}\nHash {obj}\n{'=' * 45}")
+        subprocess.run(["git", "cat-file", "-p", obj], check=True)
+
+
+if __name__ == "__main__":
+    main()
+```
+<img width="600" alt="Picture_1" src="https://github.com/user-attachments/assets/61c6d21b-707a-4a19-a0aa-6816f48df216">
