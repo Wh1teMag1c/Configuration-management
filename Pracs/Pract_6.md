@@ -265,3 +265,55 @@ dir /B > files.lst
 7z a distr.zip *.*
 ```
 Вместо gcc можно использовать другой компилятор командной строки, но на вход ему должны подаваться два модуля: prog и data. Если используете не Windows, то исправьте вызовы команд на их эквиваленты из вашей ОС. В makefile должны быть, как минимум, следующие задачи: all, clean, archive. Обязательно покажите на примере, что уже сделанные подзадачи у вас не перестраиваются.
+### Решение
+prog.c:
+```c
+#include <stdio.h>
+#include "data.h"
+
+int main() {
+    printf("Main program\n");
+    print_data();
+    return 0;
+}
+```
+data.c:
+```c
+#include <stdio.h>
+
+void print_data() {
+    printf("Data module\n");
+}
+```
+Makefile:
+```Makefile
+CC = gcc
+OUT = prog
+SRC = prog.c data.c
+ARCHIVE = distr.zip
+
+all: $(OUT)
+
+$(OUT): $(SRC)
+	$(CC) $(SRC) -o $(OUT)
+
+clean:
+	rm -f $(OUT) files.lst $(ARCHIVE)
+
+archive:
+	ls > files.lst
+	7z a $(ARCHIVE) *.*
+
+.PHONY: all clean archive
+```
+Выполнение команды `make all`:
+
+<img width="700" alt="Picture_3" src="https://github.com/user-attachments/assets/771b0fab-0438-469d-86e7-2a3252c4d1db">
+
+Выполнение команды `make archive`:
+
+<img width="700" alt="Picture_3" src="https://github.com/user-attachments/assets/56a92944-40cb-4b2a-8357-bf8401d5def4">
+
+Выполнение команды `make clean`:
+
+<img width="700" alt="Picture_3" src="https://github.com/user-attachments/assets/0eb10eeb-0280-49ca-9de5-98325cd78266">
