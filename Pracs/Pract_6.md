@@ -141,6 +141,121 @@ if __name__ == '__main__':
 # Задача 3
 ### Формулировка задачи
 Добавить цель clean, не забыв и про "животное".
+### Решение
+```Python
+import json
+import os
+
+
+def collect_dependencies(dependency_graph, target):
+    all_dependencies = set(dependency_graph.get(target, []))
+    for dependency in dependency_graph.get(target, []):
+        all_dependencies.update(collect_dependencies(dependency_graph, dependency))
+    return all_dependencies
+
+
+def create_makefile(dependency_graph, target):
+    completed = load_completed_tasks()
+    all_targets = set()
+    all_dependencies = collect_dependencies(dependency_graph, target)
+    all_dependencies.add(target)
+
+    with open('Makefile', 'w') as makefile:
+        makefile.write("all: " + " ".join(sorted(all_dependencies)) + "\n\n")
+        for target in sorted(all_dependencies):
+            if target not in completed:
+                completed.add(target)
+                target_dependencies = " ".join(dependency_graph.get(target, []))
+                all_targets.add(target)
+                makefile.write(f'{target}: {target_dependencies}\n')
+                makefile.write(f'\t@echo "Processing {target}"\n\n')
+
+        makefile.write(".PHONY: " + " ".join(sorted(all_targets)) + "\n")
+
+    save_completed_tasks(completed)
+
+
+def load_completed_tasks():
+    if os.path.exists("completed_tasks.txt"):
+        with open("completed_tasks.txt", 'r') as file:
+            return set(file.read().splitlines())
+    return set()
+
+
+def save_completed_tasks(completed):
+    with open("completed_tasks.txt", 'w') as file:
+        file.write('\n'.join(completed))
+
+
+def clean():
+    if os.path.exists("completed_tasks.txt"):
+        os.remove("completed_tasks.txt")
+        print("Cleaned completed tasks.")
+
+
+if __name__ == '__main__':
+    with open('civgraph.json') as json_file:
+        dependency_graph = json.load(json_file)
+    target_task = input('Введите задачу: ')
+    if target_task == "clean":
+        clean()
+    else:
+        create_makefile(dependency_graph, target_task)
+        print("Makefile успешно создан.")
+```
+Пример содержимого Makefile для цели `mathematics`:
+```Makefile
+all: astrology bronze_working celestial_navigation code_of_laws currency drama_poetry early_empire foreign_trade irrigation masonry mining mysticism pottery sailing writing
+
+astrology: 
+	@echo "Processing astrology"
+
+bronze_working: mining
+	@echo "Processing bronze_working"
+
+celestial_navigation: sailing astrology
+	@echo "Processing celestial_navigation"
+
+code_of_laws: 
+	@echo "Processing code_of_laws"
+
+currency: writing foreign_trade
+	@echo "Processing currency"
+
+drama_poetry: astrology irrigation masonry early_empire mysticism
+	@echo "Processing drama_poetry"
+
+early_empire: foreign_trade
+	@echo "Processing early_empire"
+
+foreign_trade: code_of_laws
+	@echo "Processing foreign_trade"
+
+irrigation: pottery
+	@echo "Processing irrigation"
+
+masonry: mining
+	@echo "Processing masonry"
+
+mining: 
+	@echo "Processing mining"
+
+mysticism: foreign_trade
+	@echo "Processing mysticism"
+
+pottery: 
+	@echo "Processing pottery"
+
+sailing: 
+	@echo "Processing sailing"
+
+writing: pottery
+	@echo "Processing writing"
+
+.PHONY: astrology bronze_working celestial_navigation code_of_laws currency drama_poetry early_empire foreign_trade irrigation masonry mining mysticism pottery sailing writing
+```
+<img width="700" alt="Picture_3" src="https://github.com/user-attachments/assets/792fd90d-7665-47a7-858b-6b64d83d1998">
+
 # Задача 4
 ### Формулировка задачи
 Написать makefile для следующего скрипта сборки:
