@@ -26,8 +26,6 @@ pip install .
 ```
 ![image](https://github.com/user-attachments/assets/53e27b28-3cf7-4f08-b2e3-96487a833296)
 
-![image](https://github.com/user-attachments/assets/a5270a79-7869-49d4-9642-6e343ea1a214)
-
 # Задача 2
 ### Формулировка задачи
 Вывести служебную информацию о пакете express (JavaScript). Разобрать основные элементы содержимого файла со служебной информацией из пакета. Как получить пакет без менеджера пакетов, прямо из репозитория?
@@ -83,15 +81,52 @@ digraph ExpressDependencies {
     rankdir=LR;
     node [shape=box];
 
-    "express" -> "body-parser";
-    "express" -> "cookie-parser";
-    "express" -> "debug";
-    "express" -> "morgan";
-    "express" -> "serve-static";
+    "express (4.18.2)" -> "qs (6.11.0)";
+    "express (4.18.2)" -> "depd (2.0.0)";
+    "express (4.18.2)" -> "etag (1.8.1)";
+    "express (4.18.2)" -> "send (0.17.1)";
+    "express (4.18.2)" -> "vary (1.1.2)";
+    "express (4.18.2)" -> "fresh (0.5.2)";
+    "express (4.18.2)" -> "cookie (0.5.0)";
+    "express (4.18.2)" -> "accepts (1.3.8)";
+    "express (4.18.2)" -> "methods (1.1.2)";
+    "express (4.18.2)" -> "type-is (1.6.18)";
+    "express (4.18.2)" -> "parseurl (1.3.3)";
+    "express (4.18.2)" -> "statuses (1.5.0)";
+    "express (4.18.2)" -> "encodeurl (1.0.2)";
+    "express (4.18.2)" -> "proxy-addr (2.0.7)";
+    "express (4.18.2)" -> "body-parser (1.20.2)";
+    "express (4.18.2)" -> "escape-html (1.0.3)";
+    "express (4.18.2)" -> "http-errors (2.0.0)";
+    "express (4.18.2)" -> "on-finished (2.4.1)";
+    "express (4.18.2)" -> "safe-buffer (5.2.1)";
+    "express (4.18.2)" -> "utils-merge (1.0.1)";
+    "express (4.18.2)" -> "content-type (1.0.4)";
+    "express (4.18.2)" -> "finalhandler (1.2.0)";
+    "express (4.18.2)" -> "range-parser (1.2.1)";
+    "express (4.18.2)" -> "serve-static (1.15.0)";
+    "express (4.18.2)" -> "array-flatten (1.1.1)";
+    "express (4.18.2)" -> "path-to-regexp (6.2.0)";
+    "express (4.18.2)" -> "setprototypeof (1.2.0)";
+    "express (4.18.2)" -> "cookie-signature (1.0.6)";
+    "express (4.18.2)" -> "merge-descriptors (1.0.1)";
+    "express (4.18.2)" -> "content-disposition (0.5.4)";
+
+    "qs (6.11.0)" -> "stringify (0.0.1)";
+    "qs (6.11.0)" -> "parse (0.0.1)";
+    
+    "body-parser (1.20.2)" -> "bytes (3.1.0)";
+    "body-parser (1.20.2)" -> "content-type (1.0.4)";
+    
+    "send (0.17.1)" -> "destroy (1.0.4)";
+    "send (0.17.1)" -> "mime (3.0.0)";
+    
+    "proxy-addr (2.0.7)" -> "ip (1.1.5)";
+    
+    "cookie-signature (1.0.6)" -> "cookie (0.5.0)";
 }
 ```
-![express_dependencies](https://github.com/user-attachments/assets/fa07db57-0a9b-4110-a650-cf98e29fff39)
-
+![express_d](https://github.com/user-attachments/assets/d878400d-8025-4fef-b132-c1112a9b8f0c)
 
 # Задача 4
 ### Формулировка задачи
@@ -136,55 +171,58 @@ output [
 
 ### Решение
 ```MiniZinc
-% Множество доступных версий для каждого пакета
-set of int: MenuVersions = 1..6;
-set of int: DropdownVersions = 1..5;
-set of int: IconsVersions = 1..2;
+% Определяем количество версий для каждого компонента
+int: totalMenu = 6;        % Общее количество версий для меню
+int: totalDropdown = 5;    % Общее количество версий для выпадающего списка (dropdown)
+int: totalIcon = 2;        % Общее количество версий для иконки (icon)
 
-% Переменные для версии каждого пакета
-var MenuVersions: menu_version;
-var DropdownVersions: dropdown_version;
-var IconsVersions: icons_version;
+% Переменные для выбора версии каждого компонента
+var 1..totalMenu: menu;            % Выбранная версия для меню
+var 1..totalDropdown: dropdown;    % Выбранная версия для выпадающего списка
+var 1..totalIcon: icon;            % Выбранная версия для иконки
 
-% Зависимости между версиями
-% Зависимости пакета menu
-constraint
-  (menu_version == 6 -> dropdown_version == 5) /\
-  (menu_version == 6 -> dropdown_version == 4) /\
-  (menu_version == 6 -> dropdown_version == 3) /\
-  (menu_version == 6 -> dropdown_version == 2) /\
-  (menu_version == 5 -> dropdown_version == 5) /\
-  (menu_version == 5 -> dropdown_version == 4) /\
-  (menu_version == 5 -> dropdown_version == 3) /\
-  (menu_version == 5 -> dropdown_version == 2) /\
-  (menu_version == 4 -> dropdown_version == 5) /\
-  (menu_version == 4 -> dropdown_version == 4) /\
-  (menu_version == 4 -> dropdown_version == 3) /\
-  (menu_version == 4 -> dropdown_version == 2) /\
-  (menu_version == 3 -> dropdown_version == 5) /\
-  (menu_version == 3 -> dropdown_version == 4) /\
-  (menu_version == 3 -> dropdown_version == 3) /\
-  (menu_version == 3 -> dropdown_version == 2) /\
-  (menu_version == 2 -> dropdown_version == 5) /\
-  (menu_version == 2 -> dropdown_version == 4) /\
-  (menu_version == 2 -> dropdown_version == 3) /\
-  (menu_version == 2 -> dropdown_version == 2) /\
-  (menu_version == 1 -> dropdown_version == 1);
+% Массив, содержащий версии для меню в формате (major, minor, patch)
+array[1..totalMenu] of tuple(int, int, int): menuVersions = 
+  [(1,0,0), (1,1,0), (1,2,0), (1,3,0), (1,4,0), (1,5,0)];
+  
+% Массив, содержащий версии для выпадающего списка
+array[1..totalDropdown] of tuple(int, int, int): dropdownVersions = 
+  [(1,8,0), (2,0,0), (2,1,0), (2,2,0), (2,3,0)];
+  
+% Массив, содержащий версии для иконки
+array[1..totalIcon] of tuple(int, int, int): iconVersions = 
+  [(1,0,0), (2,0,0)];
 
-% Зависимости пакета dropdown
-constraint
-  (dropdown_version == 5 -> icons_version == 2) /\
-  (dropdown_version == 4 -> icons_version == 2) /\
-  (dropdown_version == 3 -> icons_version == 2) /\
-  (dropdown_version == 2 -> icons_version == 2);
+% Ограничения по версиям компонентов
 
-% Вывод
+% Меню должно быть либо версии (1,0,0), либо версии (1,5,0), 
+% при этом иконка должна быть версии (1,0,0)
+constraint (menuVersions[menu] == (1,0,0) \/ 
+            (menuVersions[menu] == (1,5,0) /\ iconVersions[icon] == (1,0,0)));
+
+% Если версия меню между 1.1.0 и 1.5.0, то версия выпадающего списка должна быть 
+% либо (2,3,0), либо (2,0,0)
+constraint (menuVersions[menu].2 >= 1 /\ menuVersions[menu].2 <= 5) -> 
+          (dropdownVersions[dropdown] == (2,3,0) \/ dropdownVersions[dropdown] == (2,0,0));
+
+% Если версия меню (1,0,0), то версия выпадающего списка должна быть (1,8,0)
+constraint menuVersions[menu] == (1,0,0) -> dropdownVersions[dropdown] == (1,8,0);
+
+% Если версия выпадающего списка имеет minor версию от 0 до 3, то версия иконки должна быть (2,0,0)
+constraint (dropdownVersions[dropdown].2 >= 0 /\ dropdownVersions[dropdown].2 <= 3) -> 
+          iconVersions[icon] == (2,0,0);
+
 solve satisfy;
 
-output ["Menu version: \(menu_version)\n", "Dropdown version: \(dropdown_version)\n", "Icons version: \(icons_version)\n"];
+% Вывод выбранных версий для каждого компонента
+output [
+  "Selected Menu Version: ", show(menuVersions[menu]), "\n",
+  "Selected Dropdown Version: ", show(dropdownVersions[dropdown]), "\n",
+  "Selected Icon Version: ", show(iconVersions[icon]), "\n"
+];
 ```
 ### Ответ
-![image](https://github.com/user-attachments/assets/6a15925c-6439-40c2-9d41-55ce7ddb43a6)
+![image](https://github.com/user-attachments/assets/1f93feba-be97-42c7-945d-c7065393fc0a)
 
 # Задача 6
 ### Формулировка задачи
@@ -209,18 +247,28 @@ int: num_right = 1;       % right имеет 1 версию: 1.0.0
 int: num_shared = 2;      % shared имеет 2 версии: 1.0.0 и 2.0.0
 int: num_target = 2;      % target имеет 2 версии: 1.0.0 и 2.0.0
 
-set of int: VersionsFoo = 1..num_foo;
-set of int: VersionsLeft = 1..num_left;
-set of int: VersionsRight = 1..num_right;
-set of int: VersionsShared = 1..num_shared;
-set of int: VersionsTarget = 1..num_target;
+% Устанавливаем строки версий
+array[1..num_foo] of tuple(int, int, int): foo_versions = 
+  [(1,0,0), (1,1,0)];
+  
+array[1..num_left] of tuple(int, int, int): left_versions = 
+  [(1,0,0)];
+  
+array[1..num_right] of tuple(int, int, int): right_versions = 
+  [(1,0,0)];
+
+array[1..num_shared] of tuple(int, int, int): shared_versions = 
+  [(1,0,0), (2,0,0)];
+
+array[1..num_target] of tuple(int, int, int): target_versions = 
+  [(1,0,0), (2,0,0)];
 
 % Переменные для хранения выбранной версии каждого пакета
-var VersionsFoo: foo_version;
-var VersionsLeft: left_version;
-var VersionsRight: right_version;
-var VersionsShared: shared_version;
-var VersionsTarget: target_version;
+var 1..num_foo: foo_version;          % Версия foo
+var 1..num_left: left_version;        % Версия left
+var 1..num_right: right_version;      % Версия right
+var 1..num_shared: shared_version;    % Версия shared
+var 1..num_target: target_version;    % Версия target
 
 % Задаем зависимости между пакетами
 
@@ -243,8 +291,16 @@ constraint
 constraint 
     (shared_version == 1 -> target_version >= 1);
 
-% Оптимизация: выбираем наиболее новые версии пакетов
 solve satisfy;
+
+% Вывод выбранных версий для каждого компонента
+output [
+    "Selected Foo Version: ", show(foo_versions[foo_version]), "\n",
+    "Selected Left Version: ", show(left_versions[left_version]), "\n",
+    "Selected Right Version: ", show(right_versions[right_version]), "\n",
+    "Selected Shared Version: ", show(shared_versions[shared_version]), "\n",
+    "Selected Target Version: ", show(target_versions[target_version]), "\n"
+];
 ```
 ### Ответ
-![image](https://github.com/user-attachments/assets/429ee7e0-1363-43d4-a5df-499c7493b22d)
+![image](https://github.com/user-attachments/assets/43cfeb28-8f89-4d1e-b7a4-bcae69b6f7f3)
