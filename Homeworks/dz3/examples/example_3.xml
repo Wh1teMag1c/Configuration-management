@@ -1,0 +1,7 @@
+<networkSettings>
+    <interface>eth0</interface>
+    <ipAddress>192.168.1.10</ipAddress>
+    <comment>Настройки для локальной сети</comment>
+    <subnetMask>255.255.255.0</subnetMask>
+    <gateway>192.168.1.1</gateway>
+</networkSettings>

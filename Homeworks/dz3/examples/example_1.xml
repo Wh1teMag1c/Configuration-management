@@ -1,0 +1,10 @@
+<application>
+    <appName>WeatherApp</appName>
+    <comment>Это приложение для прогноза погоды</comment>
+    <version>1.5</version>
+    <developer>OpenAI</developer>
+    <features>
+        <feature>Real-time weather updates</feature>
+        <feature>Weekly forecasts</feature>
+    </features>
+</application>

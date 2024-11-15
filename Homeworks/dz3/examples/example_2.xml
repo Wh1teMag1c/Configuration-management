@@ -1,0 +1,11 @@
+<databaseConfig>
+    <dbName>testDB</dbName>
+    <comment multiline="true">Эта конфигурация предназначена
+    для тестовой базы данных</comment>
+    <connection>
+        <host>localhost</host>
+        <port>5432</port>
+        <user>admin</user>
+        <password>secret</password>
+    </connection>
+</databaseConfig>
