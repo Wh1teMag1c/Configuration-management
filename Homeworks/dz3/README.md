@@ -68,6 +68,62 @@ python main.py example_input.xml
 ```
 
 ## Пример работы
+Пример входного файла example_1.xml
+```xml
+<application>
+    <appName>WeatherApp</appName>
+    <comment>Это приложение для прогноза погоды</comment>
+    <version>1.5</version>
+    <developer>OpenAI</developer>
+    <features>
+        <feature>Real-time weather updates</feature>
+        <feature>Weekly forecasts</feature>
+    </features>
+</application>
+```
+Вывод программы:
+
+<img width="800" alt="Picture_1" src="https://github.com/user-attachments/assets/9e03072f-b37b-411b-ae55-b9609987a2e7">
+
+
+Пример входного файла example_2.xml
+```xml
+<databaseConfig>
+    <dbName>testDB</dbName>
+    <comment multiline="true">Эта конфигурация предназначена
+    для тестовой базы данных</comment>
+    <connection>
+        <host>localhost</host>
+        <port>5432</port>
+        <user>admin</user>
+        <password>secret</password>
+    </connection>
+</databaseConfig>
+```
+Вывод программы:
+
+<img width="800" alt="Picture_1" src="https://github.com/user-attachments/assets/4eb2ac8c-b590-42c5-97ff-ba76b3c5b34b">
+
+Пример входного файла example_3.xml
+```xml
+<mobileAppConfig>
+    <constants>
+        <MIN_SUPPORTED_VERSION>1.0</MIN_SUPPORTED_VERSION>
+        <MAX_SUPPORTED_VERSION>5.0</MAX_SUPPORTED_VERSION>
+        <DEFAULT_THEME>Light</DEFAULT_THEME>
+    </constants>
+    <appName>MyMobileApp</appName>
+    <supportedVersions>
+        <minVersion>|MIN_SUPPORTED_VERSION|</minVersion>
+        <maxVersion>|MAX_SUPPORTED_VERSION|</maxVersion>
+    </supportedVersions>
+    <theme>|DEFAULT_THEME|</theme>
+    <developerNotes>Проверить совместимость с Android и iOS</developerNotes>
+</mobileAppConfig>
+```
+Вывод программы:
+
+<img width="800" alt="Picture_1" src="https://github.com/user-attachments/assets/00de9396-15ac-4b82-ab5e-6254ed0046e5">
 
 ## Тестирование
 Для запуска тестов используйте модуль unittest:
@@ -75,3 +131,5 @@ python main.py example_input.xml
 python -m unittest tests.py
 ```
 Пример тестирования:
+
+<img width="800" alt="Picture_1" src="https://github.com/user-attachments/assets/697421e3-3847-492c-bcb3-c5472dc8c850">
