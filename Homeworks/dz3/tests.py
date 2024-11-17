@@ -99,6 +99,27 @@ class TestParseXmlToConfig(unittest.TestCase):
             parse_xml_to_config(xml_input)
         self.assertTrue("Недопустимое имя тега" in str(context.exception))
 
+    def test_constants_substitution(self):
+        xml_input = """
+        <configuration>
+            <constants>
+                <PI>3.14159</PI>
+                <MAX_USERS>100</MAX_USERS>
+            </constants>
+            <appName>MyApp</appName>
+            <maxUsers>|MAX_USERS|</maxUsers>
+            <piValue>|PI|</piValue>
+        </configuration>
+        """
+        expected_output = """3.14159 -> PI;
+100 -> MAX_USERS;
+{
+    appName = "MyApp";
+    maxUsers = 100;
+    piValue = 3.14159;
+}"""
+        self.assertEqual(parse_xml_to_config(xml_input.strip()), expected_output)
+
 
 if __name__ == "__main__":
     unittest.main()

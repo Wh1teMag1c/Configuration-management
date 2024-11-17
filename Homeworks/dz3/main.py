@@ -1,19 +1,48 @@
-import xml.etree.ElementTree as ET
 import re
 import sys
+import xml.etree.ElementTree as ET
+
+constants = {}
 
 
 def parse_xml_to_config(xml_input):
     try:
         root = ET.fromstring(xml_input)
-        return convert_element_to_config(root)
+        config_output = extract_constants(root)
+        config_output += convert_element_to_config(root)
+        return config_output
     except ET.ParseError as e:
         raise SyntaxError("Ошибка синтаксиса XML: Недопустимое имя тега") from e
+
+
+def extract_constants(element):
+    output = ""
+    if element.tag.lower() == "constants":
+        for child in element:
+            if re.match(r"[_a-zA-Z]+", child.tag):
+                if child.text and child.text.strip():
+                    value = child.text.strip()
+                    constants[child.tag] = value
+                    output += f"{value} -> {child.tag};\n"
+    elif element.tag.lower() == "constant":
+        name = element.attrib.get("name")
+        value = element.text.strip() if element.text else ""
+        if not name or not value:
+            raise SyntaxError("Тег <constant> должен содержать атрибут 'name' и текстовое значение")
+        constants[name] = value
+        output += f"{value} -> {name};\n"
+    else:
+        for child in element:
+            output += extract_constants(child)
+    return output
 
 
 def convert_element_to_config(element, indent=0):
     config_output = ""
     indent_str = "    " * indent
+
+    if element.tag.lower() in ["constants", "constant"]:
+        return ""
 
     if element.tag.lower() == "comment":
         if "multiline" in element.attrib and element.attrib["multiline"] == "true":
@@ -27,7 +56,7 @@ def convert_element_to_config(element, indent=0):
     config_output += f"{indent_str}{{\n"
     for child in element:
         if re.match(r"[_a-zA-Z]+", child.tag):
-            if child.tag.lower() != "comment":
+            if child.tag.lower() not in ["constants", "constant", "comment"]:
                 child_output = f"{indent_str}    {child.tag} = {parse_value(child)}"
                 if not len(child):
                     child_output += ";"
@@ -49,7 +78,14 @@ def parse_value(element):
         return element.text.strip()
 
     if element.text and element.text.strip():
-        return f'"{element.text.strip()}"'
+        value = element.text.strip()
+        if re.match(r"^\|[_a-zA-Z]+\|$", value):
+            const_name = value.strip('|')
+            if const_name in constants:
+                return constants[const_name]
+            else:
+                raise SyntaxError(f"Константа '{const_name}' не определена")
+        return f'"{value}"'
 
     raise SyntaxError(f"Не удалось определить значение для элемента {element.tag}")
 

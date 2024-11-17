@@ -1,7 +1,14 @@
-<networkSettings>
-    <interface>eth0</interface>
-    <ipAddress>192.168.1.10</ipAddress>
-    <comment>Настройки для локальной сети</comment>
-    <subnetMask>255.255.255.0</subnetMask>
-    <gateway>192.168.1.1</gateway>
-</networkSettings>
+<mobileAppConfig>
+    <constants>
+        <MIN_SUPPORTED_VERSION>1.0</MIN_SUPPORTED_VERSION>
+        <MAX_SUPPORTED_VERSION>5.0</MAX_SUPPORTED_VERSION>
+        <DEFAULT_THEME>Light</DEFAULT_THEME>
+    </constants>
+    <appName>MyMobileApp</appName>
+    <supportedVersions>
+        <minVersion>|MIN_SUPPORTED_VERSION|</minVersion>
+        <maxVersion>|MAX_SUPPORTED_VERSION|</maxVersion>
+    </supportedVersions>
+    <theme>|DEFAULT_THEME|</theme>
+    <developerNotes>Проверить совместимость с Android и iOS</developerNotes>
+</mobileAppConfig>
