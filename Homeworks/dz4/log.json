@@ -1,0 +1,142 @@
+[
+    {
+        "command": "LOAD_CONSTANT",
+        "args": [
+            11
+        ],
+        "binary": "070b00"
+    },
+    {
+        "command": "LOAD_CONSTANT",
+        "args": [
+            12
+        ],
+        "binary": "070c00"
+    },
+    {
+        "command": "LOAD_CONSTANT",
+        "args": [
+            13
+        ],
+        "binary": "070d00"
+    },
+    {
+        "command": "LOAD_CONSTANT",
+        "args": [
+            14
+        ],
+        "binary": "070e00"
+    },
+    {
+        "command": "LOAD_CONSTANT",
+        "args": [
+            15
+        ],
+        "binary": "070f00"
+    },
+    {
+        "command": "WRITE_MEMORY",
+        "args": [
+            1
+        ],
+        "binary": "1801"
+    },
+    {
+        "command": "WRITE_MEMORY",
+        "args": [
+            1
+        ],
+        "binary": "1801"
+    },
+    {
+        "command": "WRITE_MEMORY",
+        "args": [
+            1
+        ],
+        "binary": "1801"
+    },
+    {
+        "command": "WRITE_MEMORY",
+        "args": [
+            1
+        ],
+        "binary": "1801"
+    },
+    {
+        "command": "WRITE_MEMORY",
+        "args": [
+            1
+        ],
+        "binary": "1801"
+    },
+    {
+        "command": "LOAD_CONSTANT",
+        "args": [
+            1
+        ],
+        "binary": "070100"
+    },
+    {
+        "command": "LOAD_CONSTANT",
+        "args": [
+            2
+        ],
+        "binary": "070200"
+    },
+    {
+        "command": "LOAD_CONSTANT",
+        "args": [
+            3
+        ],
+        "binary": "070300"
+    },
+    {
+        "command": "LOAD_CONSTANT",
+        "args": [
+            4
+        ],
+        "binary": "070400"
+    },
+    {
+        "command": "LOAD_CONSTANT",
+        "args": [
+            5
+        ],
+        "binary": "070500"
+    },
+    {
+        "command": "POPCNT",
+        "args": [
+            11
+        ],
+        "binary": "110b"
+    },
+    {
+        "command": "POPCNT",
+        "args": [
+            11
+        ],
+        "binary": "110b"
+    },
+    {
+        "command": "POPCNT",
+        "args": [
+            11
+        ],
+        "binary": "110b"
+    },
+    {
+        "command": "POPCNT",
+        "args": [
+            11
+        ],
+        "binary": "110b"
+    },
+    {
+        "command": "POPCNT",
+        "args": [
+            11
+        ],
+        "binary": "110b"
+    }
+]
