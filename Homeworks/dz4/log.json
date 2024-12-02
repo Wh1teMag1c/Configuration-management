@@ -4,139 +4,139 @@
         "args": [
             11
         ],
-        "binary": "070b00"
+        "binary": "0x07, 0x0B, 0x00"
     },
     {
         "command": "LOAD_CONSTANT",
         "args": [
             12
         ],
-        "binary": "070c00"
+        "binary": "0x07, 0x0C, 0x00"
     },
     {
         "command": "LOAD_CONSTANT",
         "args": [
             13
         ],
-        "binary": "070d00"
+        "binary": "0x07, 0x0D, 0x00"
     },
     {
         "command": "LOAD_CONSTANT",
         "args": [
             14
         ],
-        "binary": "070e00"
+        "binary": "0x07, 0x0E, 0x00"
     },
     {
         "command": "LOAD_CONSTANT",
         "args": [
             15
         ],
-        "binary": "070f00"
+        "binary": "0x07, 0x0F, 0x00"
     },
     {
         "command": "WRITE_MEMORY",
         "args": [
             1
         ],
-        "binary": "1801"
+        "binary": "0x18, 0x01"
     },
     {
         "command": "WRITE_MEMORY",
         "args": [
             1
         ],
-        "binary": "1801"
+        "binary": "0x18, 0x01"
     },
     {
         "command": "WRITE_MEMORY",
         "args": [
             1
         ],
-        "binary": "1801"
+        "binary": "0x18, 0x01"
     },
     {
         "command": "WRITE_MEMORY",
         "args": [
             1
         ],
-        "binary": "1801"
+        "binary": "0x18, 0x01"
     },
     {
         "command": "WRITE_MEMORY",
         "args": [
             1
         ],
-        "binary": "1801"
+        "binary": "0x18, 0x01"
     },
     {
         "command": "LOAD_CONSTANT",
         "args": [
             1
         ],
-        "binary": "070100"
+        "binary": "0x07, 0x01, 0x00"
     },
     {
         "command": "LOAD_CONSTANT",
         "args": [
             2
         ],
-        "binary": "070200"
+        "binary": "0x07, 0x02, 0x00"
     },
     {
         "command": "LOAD_CONSTANT",
         "args": [
             3
         ],
-        "binary": "070300"
+        "binary": "0x07, 0x03, 0x00"
     },
     {
         "command": "LOAD_CONSTANT",
         "args": [
             4
         ],
-        "binary": "070400"
+        "binary": "0x07, 0x04, 0x00"
     },
     {
         "command": "LOAD_CONSTANT",
         "args": [
             5
         ],
-        "binary": "070500"
+        "binary": "0x07, 0x05, 0x00"
     },
     {
         "command": "POPCNT",
         "args": [
             11
         ],
-        "binary": "110b"
+        "binary": "0x11, 0x0B"
     },
     {
         "command": "POPCNT",
         "args": [
             11
         ],
-        "binary": "110b"
+        "binary": "0x11, 0x0B"
     },
     {
         "command": "POPCNT",
         "args": [
             11
         ],
-        "binary": "110b"
+        "binary": "0x11, 0x0B"
     },
     {
         "command": "POPCNT",
         "args": [
             11
         ],
-        "binary": "110b"
+        "binary": "0x11, 0x0B"
     },
     {
         "command": "POPCNT",
         "args": [
             11
         ],
-        "binary": "110b"
+        "binary": "0x11, 0x0B"
     }
 ]

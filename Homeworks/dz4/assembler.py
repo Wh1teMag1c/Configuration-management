@@ -54,7 +54,15 @@ def assemble(source_path, binary_path, log_path):
                 try:
                     binary_instruction = encode_instruction(command, args)
                     binary_file.write(binary_instruction)
-                    log_data.append({"command": command, "args": args, "binary": binary_instruction.hex()})
+
+                    # Преобразование в формат 0xXX
+                    binary_representation = ', '.join(f"0x{byte:02X}" for byte in binary_instruction)
+
+                    log_data.append({
+                        "command": command,
+                        "args": args,
+                        "binary": binary_representation
+                    })
                 except ValueError as e:
                     print(f"Ошибка в команде: {e}")
 
